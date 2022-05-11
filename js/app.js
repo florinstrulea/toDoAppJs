@@ -8,7 +8,11 @@ const newTask = document.querySelector("#new-task");
 const tasks = document.querySelector(".tasks");
 
 //Global variables
+
 let taskList = JSON.parse(localStorage.getItem("taskList"));
+
+//Event listeners
+newTask.addEventListener("submit", addTask);
 
 //Functions
 init();
@@ -50,4 +54,36 @@ function showTasks(arr) {
   </div>`;
 		tasks.insertAdjacentHTML("afterbegin", html);
 	});
+}
+
+function addTask(e) {
+	e.preventDefault();
+	let newTask = inputTitle.value.trim();
+	//console.log(newTask);
+	let taskDescription = inputDescription.value.trim();
+
+	if (newTask) {
+		let task = {
+			taskName: newTask,
+			description: taskDescription,
+			state: "pending",
+		};
+		//Getting existing info on the local storage
+		let existing = JSON.parse(localStorage.getItem("taskList"));
+		//console.log(existing);
+
+		//Adding to array
+		existing.push(task);
+		setLocalStorage(existing);
+
+		//Reinitialise Tasks for new value
+		tasks.innerHTML = "";
+		showTasks(existing);
+
+		//reinitialise input
+		inputTitle.value = "";
+		inputDescription.value = "";
+	} else {
+		alert("You need to give a name to your task");
+	}
 }
