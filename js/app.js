@@ -9,15 +9,19 @@ const tasks = document.querySelector(".tasks");
 const tasksContainer = document.querySelector(".tasks__container");
 const taskTitle = document.querySelector(".title__container--title");
 const taskDescription = document.querySelector(".description__value");
+const filters = document.querySelector(".filters");
+const allFilters = document.querySelectorAll(".filter");
 
 //Global variables
 
-let taskList = JSON.parse(localStorage.getItem("taskList"));
+let taskList = getLocalStorage();
 let taskId;
 //Event listeners
+
 if (document.URL.includes("index.html")) {
 	newTask.addEventListener("submit", addTask);
 	tasks.addEventListener("click", updateState);
+	filters.addEventListener("click", changeTab);
 
 	tasksContainer.addEventListener("click", function (e) {
 		if (e.target.classList.contains("task")) {
@@ -48,6 +52,9 @@ if (document.URL.includes("details.html")) {
 function setLocalStorage(value) {
 	localStorage.setItem("taskList", JSON.stringify(value));
 }
+function getLocalStorage() {
+	return JSON.parse(localStorage.getItem("taskList"));
+}
 
 function init() {
 	if (!taskList) {
@@ -65,18 +72,19 @@ function init() {
 		taskList.push(task1, task2);
 		setLocalStorage(taskList);
 	}
-	showTasks(taskList);
+	showTasks(getLocalStorage());
 }
 
 function showTasks(arr) {
 	arr.forEach((task, index) => {
+		let done = task.state == "done" ? "checked" : "";
 		const html = `<div class="task">
     <div class="task__left">
-      <input type="checkbox" name="check" class="form-check-input" id="${index}"/>
-      <span class="task__title">${task.taskName}</span>
+      <input type="checkbox" name="check" class="form-check-input" id="${index}" ${done}/>
+      <span class="task__title ${done}">${task.taskName}</span>
     </div>
     <div class="task__right">
-      <a href="#" class="task__button">
+      <a href="#" class="task__button" onclick="deleteTask(${index})">
         <i class="fas fa-trash-alt" title="Delete task"></i>
       </a>
     </div>
@@ -87,24 +95,26 @@ function showTasks(arr) {
 function updateState(e) {
 	if (e.target.classList.contains("form-check-input")) {
 		if (e.target.checked) {
-			taskList = JSON.parse(localStorage.getItem("taskList"));
+			// console.log(e.target);
+			// console.log(e.target.id);
+			// console.log(e.target.parentElement.parentElement);
 			taskList[e.target.id].state = "done";
-			e.target.nextElementSibling.classList.add("line-through");
-			arrayMove(taskList, e.target.id, 0);
-			setLocalStorage(taskList);
-			tasks.appendChild(e.target.parentElement.parentElement);
+			e.target.nextElementSibling.classList.add("checked");
+			//tasks.appendChild(e.target.parentElement.parentElement);
+
+			//arrayMove(taskList, e.target.id, 0);
 		} else {
-			taskList = JSON.parse(localStorage.getItem("taskList"));
-			taskList[0].state = "pending";
-			e.target.nextElementSibling.classList.remove("line-through");
-			arrayMove(taskList, 0, taskList.length - 1);
-			setLocalStorage(taskList);
-			window.location.reload();
+			taskList[e.target.id].state = "pending";
+			e.target.nextElementSibling.classList.remove("checked");
+			// taskList = arrayMove(taskList, e.target.id, taskList.length);
+			// console.log(e.target.id);
+			// setLocalStorage(taskList);
+			//window.location.reload();
 		}
+		setLocalStorage(taskList);
 	}
 }
 function addTask(e) {
-	e.preventDefault();
 	let newTask = stripTags(inputTitle.value);
 	//console.log(newTask);
 	let taskDescription = stripTags(inputDescription.value);
@@ -116,7 +126,7 @@ function addTask(e) {
 			state: "pending",
 		};
 		//Getting existing info on the local storage
-		let existing = JSON.parse(localStorage.getItem("taskList"));
+		let existing = getLocalStorage();
 		//console.log(existing);
 
 		//Adding to array
@@ -124,7 +134,7 @@ function addTask(e) {
 		setLocalStorage(existing);
 
 		//Reinitialise Tasks for new value
-		window.location.reload();
+		tasks.innerHTML = "";
 		showTasks(existing);
 
 		//reinitialise input
@@ -133,6 +143,25 @@ function addTask(e) {
 	} else {
 		alert("You need to give a name to your task");
 	}
+}
+
+function deleteTask(elementId) {
+	//console.log(elementId);
+	taskList = getLocalStorage();
+	taskList.splice(elementId, 1);
+	setLocalStorage(taskList);
+	window.location.reload();
+}
+
+function changeTab(e) {
+	const clicked = e.target.closest(".filter");
+
+	if (!clicked) return;
+	//Remove active from all filters
+	allFilters.forEach((f) => f.classList.remove("active"));
+	//Activate filter
+	clicked.classList.add("active");
+	taskList = getLocalStorage();
 }
 
 function stripTags(str) {
