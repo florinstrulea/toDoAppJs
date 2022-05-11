@@ -6,16 +6,44 @@ const inputTitle = document.querySelector("#input-title");
 const inputDescription = document.querySelector("#input-description");
 const newTask = document.querySelector("#new-task");
 const tasks = document.querySelector(".tasks");
+const tasksContainer = document.querySelector(".tasks__container");
+const taskTitle = document.querySelector(".title__container--title");
+const taskDescription = document.querySelector(".description__value");
 
 //Global variables
 
 let taskList = JSON.parse(localStorage.getItem("taskList"));
-
+let taskId;
 //Event listeners
-newTask.addEventListener("submit", addTask);
+if (document.URL.includes("index.html")) {
+	newTask.addEventListener("submit", addTask);
+
+	tasksContainer.addEventListener("click", function (e) {
+		if (e.target.classList.contains("task")) {
+			taskId = e.target.firstElementChild.firstElementChild.id;
+			localStorage.setItem("taskId", taskId);
+			window.location.href = `details.html?id=${taskId}`;
+		} else if (e.target.classList.contains("task__title")) {
+			taskId = e.target.parentElement.firstElementChild.id;
+			localStorage.setItem("taskId", taskId);
+			window.location.href = `details.html?id=${taskId}`;
+		}
+	});
+	init();
+}
+
+if (document.URL.includes("details.html")) {
+	const taskId = localStorage.getItem("taskId");
+	taskTitle.textContent = `My task: ${taskList[taskId].taskName}`;
+	taskDescription.textContent = `${
+		!taskList[taskId].description
+			? "There is no description for the task"
+			: taskList[taskId].description
+	}`;
+}
 
 //Functions
-init();
+
 function setLocalStorage(value) {
 	localStorage.setItem("taskList", JSON.stringify(value));
 }
@@ -40,10 +68,10 @@ function init() {
 }
 
 function showTasks(arr) {
-	arr.forEach((task) => {
+	arr.forEach((task, index) => {
 		const html = `<div class="task">
     <div class="task__left">
-      <input type="checkbox" name="check" class="form-check-input"/>
+      <input type="checkbox" name="check" class="form-check-input" id="${index}"/>
       <span class="task__title">${task.taskName}</span>
     </div>
     <div class="task__right">
@@ -58,9 +86,9 @@ function showTasks(arr) {
 
 function addTask(e) {
 	e.preventDefault();
-	let newTask = inputTitle.value.trim();
+	let newTask = stripTags(inputTitle.value);
 	//console.log(newTask);
-	let taskDescription = inputDescription.value.trim();
+	let taskDescription = stripTags(inputDescription.value);
 
 	if (newTask) {
 		let task = {
@@ -85,5 +113,14 @@ function addTask(e) {
 		inputDescription.value = "";
 	} else {
 		alert("You need to give a name to your task");
+	}
+}
+
+function stripTags(str) {
+	if (str === null || str === "") {
+		return false;
+	} else {
+		str = str.toString().trim();
+		return str.replace(/(<([^>]+)>)/gi, "");
 	}
 }

@@ -84,6 +84,17 @@
   text-decoration: line-through;
 }
 
+.return {
+  padding: 1rem;
+  font-size: 1.6rem;
+}
+
+.description__before {
+  color: yellow;
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
 *,
 *::after,
 *::before {
