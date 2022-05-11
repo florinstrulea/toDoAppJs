@@ -1,0 +1,25 @@
+@use "../abstracts/variables" as v;
+*,
+*::after,
+*::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+html {
+	font-size: 62.5%; /*with this 1rem=10px instead of 16px */
+	margin: 0 auto;
+}
+
+body {
+	box-sizing: border-box;
+	font-family: "Roboto", sans-serif;
+	background-color: v.$background;
+	font-size: 1.6rem;
+	letter-spacing: 5px;
+}
+
+.container-fluid {
+	margin: 0;
+	padding: 0;
+}

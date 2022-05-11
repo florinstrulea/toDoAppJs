@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="/img/task.ico" type="image/x-icon" />
+		<!-- Google fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+			rel="stylesheet"
+		/>
+		<!-- Bootstrap styles -->
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<!-- My styles -->
+		<link rel="stylesheet" href="/css/main.css" />
+
+		<!-- Fontawsome -->
+		<script src="https://kit.fontawesome.com/052c7b0e15.js" crossorigin="anonymous"></script>
+		<title>My to do list</title>
+	</head>
+	<body>
+		<header class="container-fluid">
+			<div class="container-fluid title__container">
+				<h1 class="title__container--title">My to do list :</h1>
+			</div>
+		</header>
+		<main>
+			<div class="input__container container">
+				<form action="" method="" id="new-task">
+					<div class="form__container">
+						<div class="input__field">
+							<label for="input-title">Task name</label>
+							<input
+								type="text"
+								class="form-control input__element"
+								placeholder="Add a new task ..."
+								aria-label="Add a new task ..."
+								aria-describedby="button-addon2"
+								required
+								id="input-title"
+							/>
+						</div>
+						<div class="input__field">
+							<label for="input-description">Task description</label>
+							<input
+								type="text"
+								class="form-control input__element"
+								placeholder="Add the task description ..."
+								aria-label="Add the task description"
+								aria-describedby="button-addon2"
+								id="input-description"
+							/>
+						</div>
+						<div class="button__container">
+							<input
+								class="btn btn-secondary"
+								type="submit"
+								id="button-addon2"
+								class="task__button"
+								value="Add a new task"
+							/>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="tasks__container container">
+				<h2 class="title__secondary">My tasks</h2>
+				<div class="controls">
+					<div class="filters d-flex justify-content-between">
+						<p class="filter active" id="all">All</p>
+						<p class="filter" id="pending">Pending</p>
+						<p class="filter" id="done">Done</p>
+						<button class="btn btn-danger delete__all">Clear All</button>
+					</div>
+				</div>
+				<div class="tasks">
+					<!-- <div class="task">
+						<div class="task__left">
+							<input type="checkbox" name="check" class="form-check-input" id="1" />
+							<span class="task__title" data-description="I need to buy two litters of milk"
+								>Buy some milk</span
+							>
+						</div>
+						<div class="task__right">
+							<a href="#" class="task__button">
+								<i class="fas fa-trash-alt" title="Delete task"></i>
+							</a>
+						</div>
+					</div> -->
+					<!-- <div class="task">
+						<div class="task__left">
+							<input type="checkbox" name="check" class="form-check-input" id="2" />
+							<span
+								class="task__title"
+								data-description="I should water the plants with two liters of water each"
+								>Water the plants wich are inside the house</span
+							>
+						</div>
+						<div class="task__right">
+							<a href="#" class="task__button">
+								<i class="fas fa-trash-alt" title="Delete task"></i>
+							</a>
+						</div>
+					</div> -->
+				</div>
+			</div>
+		</main>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/app.js"></script>
+	</body>
+</html>
