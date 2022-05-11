@@ -17,6 +17,7 @@ let taskId;
 //Event listeners
 if (document.URL.includes("index.html")) {
 	newTask.addEventListener("submit", addTask);
+	tasks.addEventListener("click", updateState);
 
 	tasksContainer.addEventListener("click", function (e) {
 		if (e.target.classList.contains("task")) {
@@ -83,7 +84,25 @@ function showTasks(arr) {
 		tasks.insertAdjacentHTML("afterbegin", html);
 	});
 }
-
+function updateState(e) {
+	if (e.target.classList.contains("form-check-input")) {
+		if (e.target.checked) {
+			taskList = JSON.parse(localStorage.getItem("taskList"));
+			taskList[e.target.id].state = "done";
+			e.target.nextElementSibling.classList.add("line-through");
+			arrayMove(taskList, e.target.id, 0);
+			setLocalStorage(taskList);
+			tasks.appendChild(e.target.parentElement.parentElement);
+		} else {
+			taskList = JSON.parse(localStorage.getItem("taskList"));
+			taskList[0].state = "pending";
+			e.target.nextElementSibling.classList.remove("line-through");
+			arrayMove(taskList, 0, taskList.length - 1);
+			setLocalStorage(taskList);
+			window.location.reload();
+		}
+	}
+}
 function addTask(e) {
 	e.preventDefault();
 	let newTask = stripTags(inputTitle.value);
@@ -105,7 +124,7 @@ function addTask(e) {
 		setLocalStorage(existing);
 
 		//Reinitialise Tasks for new value
-		tasks.innerHTML = "";
+		window.location.reload();
 		showTasks(existing);
 
 		//reinitialise input
@@ -123,4 +142,11 @@ function stripTags(str) {
 		str = str.toString().trim();
 		return str.replace(/(<([^>]+)>)/gi, "");
 	}
+}
+
+function arrayMove(arr, fromIndex, toIndex) {
+	let element = arr[fromIndex];
+	arr.splice(fromIndex, 1);
+	arr.splice(toIndex, 0, element);
+	return arr;
 }
