@@ -1,0 +1,85 @@
+@use "../abstracts/variables" as v;
+.title__container {
+	padding: 3rem 0;
+	background-color: v.$backgroundTitle;
+	border-bottom: 5px solid v.$black;
+
+	&--title {
+		text-align: center;
+		font-size: 5rem;
+		color: v.$white;
+		text-decoration: underline;
+		padding: 4rem 0;
+	}
+}
+
+.title__secondary {
+	text-align: center;
+	font-size: 3.5rem;
+	font-weight: bold;
+	margin: 3rem 0;
+}
+
+.form__container {
+	margin-top: 3rem;
+	& input {
+		padding: 2rem;
+		font-size: 2rem;
+	}
+	& button {
+		padding: 2rem;
+		font-size: 2rem;
+	}
+}
+.button__container {
+	display: flex;
+	justify-content: center;
+}
+.input__field {
+	margin-bottom: 1rem;
+}
+
+.task {
+	background-color: v.$backgroundTask;
+	color: v.$white;
+	margin: 2rem;
+	padding: 2rem 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	&__button {
+		color: white;
+		font-size: 3rem;
+		&:hover {
+			color: v.$red;
+		}
+	}
+	&__title {
+		font-size: 2rem;
+	}
+}
+
+.input__element::placeholder {
+	color: #adb5bd;
+}
+
+.delete__all {
+	color: v.$white;
+	font-size: 1.6rem;
+}
+
+.filter {
+	font-size: 1.6rem;
+}
+
+.active {
+	padding: 1rem;
+	background-color: v.$active;
+	color: v.$white;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.line-through {
+	text-decoration: line-through;
+}

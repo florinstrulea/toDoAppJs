@@ -1,0 +1,114 @@
+.title__container {
+  padding: 3rem 0;
+  background-color: #3d5a80;
+  border-bottom: 5px solid #22223b;
+}
+.title__container--title {
+  text-align: center;
+  font-size: 5rem;
+  color: white;
+  text-decoration: underline;
+  padding: 4rem 0;
+}
+
+.title__secondary {
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: bold;
+  margin: 3rem 0;
+}
+
+.form__container {
+  margin-top: 3rem;
+}
+.form__container input {
+  padding: 2rem;
+  font-size: 2rem;
+}
+.form__container button {
+  padding: 2rem;
+  font-size: 2rem;
+}
+
+.button__container {
+  display: flex;
+  justify-content: center;
+}
+
+.input__field {
+  margin-bottom: 1rem;
+}
+
+.task {
+  background-color: #003459;
+  color: white;
+  margin: 2rem;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.task__button {
+  color: white;
+  font-size: 3rem;
+}
+.task__button:hover {
+  color: #a4161a;
+}
+.task__title {
+  font-size: 2rem;
+}
+
+.input__element::placeholder {
+  color: #adb5bd;
+}
+
+.delete__all {
+  color: white;
+  font-size: 1.6rem;
+}
+
+.filter {
+  font-size: 1.6rem;
+}
+
+.active {
+  padding: 1rem;
+  background-color: green;
+  color: white;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  /*with this 1rem=10px instead of 16px */
+  margin: 0 auto;
+}
+
+body {
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  background-color: #ced4da;
+  font-size: 1.6rem;
+  letter-spacing: 5px;
+}
+
+.container-fluid {
+  margin: 0;
+  padding: 0;
+}
+
+/*# sourceMappingURL=main.css.map */
