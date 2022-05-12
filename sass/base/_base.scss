@@ -60,6 +60,10 @@
 	}
 	&__title {
 		font-size: 2rem;
+		word-wrap: break-word;
+	}
+	&__left {
+		max-width: 80%;
 	}
 }
 
@@ -97,4 +101,7 @@
 	color: yellow;
 	font-weight: bold;
 	font-size: 1.8rem;
+}
+.description__value {
+	word-wrap: break-word;
 }

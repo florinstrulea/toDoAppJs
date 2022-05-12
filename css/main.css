@@ -61,6 +61,10 @@
 }
 .task__title {
   font-size: 2rem;
+  word-wrap: break-word;
+}
+.task__left {
+  max-width: 80%;
 }
 
 .input__element::placeholder {
@@ -98,6 +102,10 @@
   color: yellow;
   font-weight: bold;
   font-size: 1.8rem;
+}
+
+.description__value {
+  word-wrap: break-word;
 }
 
 *,
