@@ -47,9 +47,13 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	&:hover {
+		cursor: pointer;
+	}
 	&__button {
 		color: white;
 		font-size: 3rem;
+		cursor: pointer;
 		&:hover {
 			color: v.$red;
 		}
@@ -70,6 +74,7 @@
 
 .filter {
 	font-size: 1.6rem;
+	cursor: pointer;
 }
 
 .active {

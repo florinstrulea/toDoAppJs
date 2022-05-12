@@ -48,9 +48,13 @@
   justify-content: space-between;
   align-items: center;
 }
+.task:hover {
+  cursor: pointer;
+}
 .task__button {
   color: white;
   font-size: 3rem;
+  cursor: pointer;
 }
 .task__button:hover {
   color: #a4161a;
@@ -70,6 +74,7 @@
 
 .filter {
   font-size: 1.6rem;
+  cursor: pointer;
 }
 
 .active {

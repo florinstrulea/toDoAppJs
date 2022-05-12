@@ -11,17 +11,25 @@ const taskTitle = document.querySelector(".title__container--title");
 const taskDescription = document.querySelector(".description__value");
 const filters = document.querySelector(".filters");
 const allFilters = document.querySelectorAll(".filter");
+const clearAll = document.querySelector(".delete__all");
 
 //Global variables
 
 let taskList = getLocalStorage();
 let taskId;
-//Event listeners
 
 if (document.URL.includes("index.html")) {
+	//Event listeners
 	newTask.addEventListener("submit", addTask);
 	tasks.addEventListener("click", updateState);
-	filters.addEventListener("click", changeTab);
+	allFilters.forEach((filter) => {
+		filter.addEventListener("click", () => {
+			document.querySelector("p.active").classList.remove("active");
+			filter.classList.add("active");
+			showTasks(filter.id);
+		});
+	});
+	clearAll.addEventListener("click", deleteAll);
 
 	tasksContainer.addEventListener("click", function (e) {
 		if (e.target.classList.contains("task")) {
@@ -42,7 +50,7 @@ if (document.URL.includes("details.html")) {
 	taskTitle.textContent = `My task: ${taskList[taskId].taskName}`;
 	taskDescription.textContent = `${
 		!taskList[taskId].description
-			? "There is no description for the task"
+			? "There is no description for this task"
 			: taskList[taskId].description
 	}`;
 }
@@ -72,26 +80,45 @@ function init() {
 		taskList.push(task1, task2);
 		setLocalStorage(taskList);
 	}
-	showTasks(getLocalStorage());
+	// showTasks();
 }
 
-function showTasks(arr) {
-	arr.forEach((task, index) => {
-		let done = task.state == "done" ? "checked" : "";
-		const html = `<div class="task">
-    <div class="task__left">
-      <input type="checkbox" name="check" class="form-check-input" id="${index}" ${done}/>
-      <span class="task__title ${done}">${task.taskName}</span>
-    </div>
-    <div class="task__right">
-      <a href="#" class="task__button" onclick="deleteTask(${index})">
-        <i class="fas fa-trash-alt" title="Delete task"></i>
-      </a>
-    </div>
-  </div>`;
-		tasks.insertAdjacentHTML("afterbegin", html);
-	});
+function showTasks(filter) {
+	if (taskList.length == 0) {
+		tasks.innerHTML = `<p class="text-danger text-center mt-5 fw-bold empty">You don't have any tasks here</p>`;
+	}
+	let html = "";
+	let content = [];
+	taskList = getLocalStorage();
+	if (taskList.length !== 0) {
+		taskList.forEach((task, index) => {
+			let done = task.state == "done" ? "checked" : "";
+			if (filter == task.state || filter == "all") {
+				html = `<div class="task">
+				<div class="task__left">
+					<input type="checkbox" name="check" class="form-check-input" id="${index}" ${done}/>
+					<span class="task__title ${done}">${task.taskName}</span>
+				</div>
+				<div class="task__right">
+					<a href="#" class="task__button" onclick="deleteTask(${index})">
+						<i class="fas fa-trash-alt" title="Delete task"></i>
+					</a>
+				</div>
+			</div>`;
+				content.unshift(html);
+			}
+
+			//tasks.insertAdjacentHTML("afterbegin", html);
+		});
+	}
+	if (document.URL.includes("index.html")) {
+		tasks.innerHTML =
+			content.join() ||
+			`<p class="text-danger text-center mt-5 fw-bold empty">You don't have any tasks here</p>`;
+	}
 }
+
+showTasks("all");
 function updateState(e) {
 	if (e.target.classList.contains("form-check-input")) {
 		if (e.target.checked) {
@@ -118,7 +145,9 @@ function addTask(e) {
 	let newTask = stripTags(inputTitle.value);
 	//console.log(newTask);
 	let taskDescription = stripTags(inputDescription.value);
-
+	if (tasks.closest(".empty")) {
+		tasks.innerHTML = "";
+	}
 	if (newTask) {
 		let task = {
 			taskName: newTask,
@@ -135,7 +164,7 @@ function addTask(e) {
 
 		//Reinitialise Tasks for new value
 		tasks.innerHTML = "";
-		showTasks(existing);
+		showTasks(document.querySelector("p.active").id);
 
 		//reinitialise input
 		inputTitle.value = "";
@@ -150,18 +179,14 @@ function deleteTask(elementId) {
 	taskList = getLocalStorage();
 	taskList.splice(elementId, 1);
 	setLocalStorage(taskList);
-	window.location.reload();
+	showTasks(document.querySelector("p.active").id);
 }
 
-function changeTab(e) {
-	const clicked = e.target.closest(".filter");
-
-	if (!clicked) return;
-	//Remove active from all filters
-	allFilters.forEach((f) => f.classList.remove("active"));
-	//Activate filter
-	clicked.classList.add("active");
+function deleteAll() {
 	taskList = getLocalStorage();
+	taskList.splice(0, taskList.length);
+	setLocalStorage(taskList);
+	showTasks(document.querySelector("p.active").id);
 }
 
 function stripTags(str) {
