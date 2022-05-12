@@ -29,7 +29,7 @@ if (document.URL.includes("index.html")) {
 			showTasks(filter.id);
 		});
 	});
-	clearAll.addEventListener("click", deleteAll);
+	clearAll.addEventListener("click", confirmClear);
 
 	tasksContainer.addEventListener("click", function (e) {
 		if (e.target.classList.contains("task")) {
@@ -80,7 +80,6 @@ function init() {
 		taskList.push(task1, task2);
 		setLocalStorage(taskList);
 	}
-	// showTasks();
 }
 
 function showTasks(filter) {
@@ -100,15 +99,13 @@ function showTasks(filter) {
 					<span class="task__title ${done}">${task.taskName}</span>
 				</div>
 				<div class="task__right">
-					<a href="#" class="task__button" onclick="deleteTask(${index})">
+					<a href="#" class="task__button" onclick="confirmAction(${index}, ${task.state})">
 						<i class="fas fa-trash-alt" title="Delete task"></i>
 					</a>
 				</div>
 			</div>`;
 				content.unshift(html);
 			}
-
-			//tasks.insertAdjacentHTML("afterbegin", html);
 		});
 	}
 	if (document.URL.includes("index.html")) {
@@ -177,6 +174,7 @@ function addTask(e) {
 function deleteTask(elementId) {
 	//console.log(elementId);
 	taskList = getLocalStorage();
+
 	taskList.splice(elementId, 1);
 	setLocalStorage(taskList);
 	showTasks(document.querySelector("p.active").id);
@@ -203,4 +201,34 @@ function arrayMove(arr, fromIndex, toIndex) {
 	arr.splice(fromIndex, 1);
 	arr.splice(toIndex, 0, element);
 	return arr;
+}
+
+function confirmAction(index, status) {
+	//console.log(status);
+	status = getLocalStorage()[index].state;
+	if (status === "pending") {
+		let confirmChoice = confirm(
+			"This task has not been completed. Do you still want to delete it ?"
+		);
+		if (confirmChoice) {
+			deleteTask(index);
+			confirmChoice = "";
+		}
+		console.log();
+	} else {
+		let confirmChoice = confirm("Your task is completed. Do you want to delete it ?");
+		if (confirmChoice) {
+			deleteTask(index);
+			confirmChoice = "";
+		}
+	}
+}
+
+function confirmClear() {
+	if (getLocalStorage().length !== 0) {
+		let confirmChoice = confirm("You are about to delete all your tasks. Are you sure ?");
+		if (confirmChoice) {
+			deleteAll();
+		}
+	}
 }
